@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+   <display-name>Afm</display-name>
+   <security-constraint>
+      <web-resource-collection>
+         <web-resource-name>Portal Backend</web-resource-name>
+         <url-pattern>/api/*</url-pattern>
+         <http-method>GET</http-method>
+         <http-method>POST</http-method>
+         <http-method>PUT</http-method>
+      </web-resource-collection>
+   </security-constraint>
+   <security-constraint>
+      <web-resource-collection>
+         <web-resource-name>HR Portal Rest</web-resource-name>
+         <url-pattern>/api/v1/afm/*</url-pattern>
+         <http-method>GET</http-method>
+         <http-method>POST</http-method>
+         <http-method>PUT</http-method>
+      </web-resource-collection>
+   </security-constraint>
+   <filter>
+      <filter-name>RestFilter</filter-name>
+      <filter-class>RestFilter</filter-class>
+   </filter>
+   <filter-mapping>
+      <filter-name>\za\ac\afm\rest\RestFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+   </filter-mapping>
+</web-app>

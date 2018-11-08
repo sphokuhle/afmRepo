@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<property name="LOG_HOME" value="C:/AfmLogs" />
+
+	<appender name="ROOT_LOG"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/root.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} [%level] %logger{0} - %msg%n
+			</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${LOG_HOME}/archived/root.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>50MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+
+	<appender name="STARTUP"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/startup.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} [%level] %logger{0} - %msg%n
+			</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${LOG_HOME}/archived/startup.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>50MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+
+	<appender name="Afm"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/afm.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} [%level] %logger{0} - %msg%n
+			</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${LOG_HOME}/archived/timetracker.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>50MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+
+	<logger name="za.co.afm" level="TRACE" additivity="false">
+		<appender-ref ref="afm" />
+	</logger>
+
+	<logger name="za.co.afm.startup" level="TRACE" additivity="false">
+		<appender-ref ref="STARTUP" />
+	</logger>
+	<logger name="liquibase" level="TRACE" additivity="false">
+		<appender-ref ref="STARTUP" />
+	</logger>
+	
+	<logger name="com.microsoft.sqlserver.jdbc.SQLServerException" level="TRACE" additivity="false">
+		<appender-ref ref="ROOT_LOG" />
+	</logger>
+	
+	<logger name="javax.persistence.PersistenceException" level="TRACE" additivity="false">
+		<appender-ref ref="ROOT_LOG" />
+	</logger>
+	
+	<logger name="javax.persistence.NoResultException" level="TRACE" additivity="false">
+		<appender-ref ref="ROOT_LOG" />
+	</logger>
+	
+	<logger name="javax.ejb.EJBTransactionRolledbackException" level="TRACE" additivity="false">
+		<appender-ref ref="ROOT_LOG" />
+	</logger>
+
+	<root level="TRACE">
+		<appender-ref ref="ROOT_LOG" />
+	</root>
+
+</configuration>

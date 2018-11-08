@@ -1,0 +1,130 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="Spho" id="Add AFM schema">
+        <sql  splitStatements="true">
+            CREATE SCHEMA AFM;
+        </sql>
+    </changeSet>
+   
+    <changeSet id="create USER table" author="Spho">
+    	<createTable tableName="USER" schemaName="AFM">
+    		<column name="ID" type="BIGINT" autoIncrement="true">
+    			<constraints primaryKey="true" nullable="false"/>
+    		</column>
+    		<column name="FIRST_NAME" type="VARCHAR(50)">
+    			<constraints nullable="false"/>
+    		</column>
+    		<column name="LAST_NAME" type="VARCHAR(50)">
+    			<constraints nullable="false"/>
+    		</column>
+    		<column name="ADDRESS" type="VARCHAR(1500)">
+    			<constraints nullable="false"/>
+    		</column>
+    		<column name="CELL_NUMBER" type="VARCHAR(15)">
+    			<constraints nullable="true"/>
+    		</column>
+    		<column name="DATE_OF_BIRTH" type="DATETIME">
+    			<constraints nullable="false"/>
+    		</column>
+    		<column name="EMAIL" type="VARCHAR(100)">
+    			<constraints nullable="true"/>
+    		</column>
+    		<column name="OCCUPATION" type="VARCHAR(100)">
+    			<constraints nullable="true"/>
+    		</column>
+    		<column name="EDUCATION_LEVEL" type="VARCHAR(100)">
+    			<constraints nullable="true"/>
+    		</column>
+    		<column name="BAPTISM_STATUS_ID" type="BIGINT">
+    			<constraints nullable="false"/> <!-- fk -->
+    		</column>
+    		
+    		<column name="MEMBERSHIP_CERTIFICATE_ID" type="BIGINT">
+    			<constraints nullable="false"/> <!-- fk -->
+    		</column>
+    		
+    		<column name="MEMBERSHIP_CATEGORY_ID" type="BIGINT">
+    			<constraints nullable="false"/> <!-- fk -->
+    		</column>
+    	</createTable>
+    </changeSet>
+    
+    <changeSet id="create BAPTISM_STATUS table" author="Spho">
+    	<createTable tableName="BAPTISM_STATUS" schemaName="AFM">
+    		<column name="ID" type="BIGINT" autoIncrement="true">
+    			<constraints nullable="false" primaryKey="true"/>
+    		</column>
+    		<column name="STATUS" type="VARCHAR(100)">
+    			<constraints nullable="false"/>
+    		</column>
+    	</createTable>
+    </changeSet>
+    
+    <changeSet id="create MEMBERSHIP_CERTIFICATE table" author="Spho">
+    	<createTable tableName="MEMBERSHIP_CERTIFICATE" schemaName="AFM">
+    		<column name="ID" type="BIGINT" autoIncrement="true">
+    			<constraints nullable="false" primaryKey="true"/>
+    		</column>
+    		<column name="STATUS" type="VARCHAR(100)">
+    			<constraints nullable="false"/>
+    		</column>
+    	</createTable>
+    </changeSet>
+    
+    <changeSet id="create MEMBERSHIP_CATEGORY table" author="Spho">
+    	<createTable tableName="MEMBERSHIP_CATEGORY" schemaName="AFM">
+    		<column name="ID" type="BIGINT" autoIncrement="true">
+    			<constraints nullable="false" primaryKey="true"/>
+    		</column>
+    		<column name="CATEGORY" type="VARCHAR(100)">
+    			<constraints nullable="false"/>
+    		</column>
+    	</createTable>
+    </changeSet>
+    
+    
+    <changeSet author="Spho" id="BAPTISM_STATUS_ID_FOREIGN_KEY">
+        <addForeignKeyConstraint baseColumnNames="BAPTISM_STATUS_ID" baseTableName="USER" constraintName="BAPTISM_STATUS_ID_FOREIGN_KEY" deferrable="false" initiallyDeferred="false" baseTableSchemaName="AFM" referencedTableSchemaName="AFM" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableName="BAPTISM_STATUS" validate="true"/>
+    </changeSet>
+    
+    <changeSet author="Spho" id="MEMBERSHIP_CERTIFICATE_ID_FOREIGN_KEY">
+        <addForeignKeyConstraint baseColumnNames="MEMBERSHIP_CERTIFICATE_ID" baseTableName="USER" constraintName="MEMBERSHIP_CERTIFICATE_ID_FOREIGN_KEY" deferrable="false" initiallyDeferred="false" baseTableSchemaName="AFM" referencedTableSchemaName="AFM" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableName="MEMBERSHIP_CERTIFICATE" validate="true"/>
+    </changeSet>
+    
+    <changeSet author="Spho" id="MEMBERSHIP_CATEGORY_ID_FOREIGN_KEY">
+        <addForeignKeyConstraint baseColumnNames="MEMBERSHIP_CATEGORY_ID" baseTableName="USER" constraintName="MEMBERSHIP_CATEGORY_ID_FOREIGN_KEY" deferrable="false" initiallyDeferred="false" baseTableSchemaName="AFM" referencedTableSchemaName="AFM" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableName="MEMBERSHIP_CATEGORY" validate="true"/>
+    </changeSet>
+    
+    <changeSet author="Spho" id="populateEnumData">
+    	<sql splitStatements="true">
+    		
+    		INSERT INTO AFM.BAPTISM_STATUS (STATUS) VALUES (N'YES');
+    		
+			INSERT INTO AFM.BAPTISM_STATUS (STATUS) VALUES (N'NO');
+    		
+    		INSERT INTO AFM.BAPTISM_STATUS (STATUS) VALUES (N'NOT APPLICABLE');
+    		
+    		
+    		
+    		INSERT INTO AFM.MEMBERSHIP_CATEGORY (CATEGORY) VALUES (N'Children Ministry');
+    		
+			INSERT INTO AFM.MEMBERSHIP_CATEGORY (CATEGORY) VALUES (N'Youth');
+    		
+    		INSERT INTO AFM.MEMBERSHIP_CATEGORY (CATEGORY) VALUES (N'Adults');
+    		
+    		
+    		INSERT INTO AFM.MEMBERSHIP_CERTIFICATE (STATUS) VALUES (N'MEMBER WITH CERTIFICATE');
+    		
+    		INSERT INTO AFM.MEMBERSHIP_CERTIFICATE (STATUS) VALUES (N'MEMBER NO CERTIFICATE');
+    		
+    		INSERT INTO AFM.MEMBERSHIP_CERTIFICATE (STATUS) VALUES (N'NOT A MEMBER');
+    		
+    		INSERT INTO AFM.USER (FIRST_NAME, LAST_NAME, ADDRESS, CELL_NUMBER, DATE_OF_BIRTH, EMAIL, OCCUPATION, EDUCATION_LEVEL, BAPTISM_STATUS_ID, MEMBERSHIP_CERTIFICATE_ID, MEMBERSHIP_CATEGORY_ID) VALUES (N'Duduzile', N'Nkosi', N'1655 Block G Soshanguve 0156', N'(076) 489-2752', N'1973-03-06', N'NOT APPLICABLE', N'NOT EMPLOYED', N'NULL',2 ,2, 3);
+    		INSERT INTO AFM.USER (FIRST_NAME, LAST_NAME, ADDRESS, CELL_NUMBER, DATE_OF_BIRTH, EMAIL, OCCUPATION, EDUCATION_LEVEL, BAPTISM_STATUS_ID, MEMBERSHIP_CERTIFICATE_ID, MEMBERSHIP_CATEGORY_ID) VALUES (N'Thembekile', N'Magalela', N'652 Block UU Soshanguve 0156', N'(062) 930-9299', N'2001-12-04', N'NOT APPLICABLE', N'STUDENT', N'MATRIC',2 ,2, 2);
+    		
+    	</sql>
+    
+    </changeSet>
+    
+      
+</databaseChangeLog>

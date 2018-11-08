@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="JPAService">
+		<jta-data-source>jdbc/afm</jta-data-source>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+		<properties>
+			<property name="eclipselink.logging.level" value="FINEST"/>
+			<property name="openjpa.Log" value="openjpa.jdbc.SQL=trace"/>
+			<property name="eclipselink.cache.shared.default" value="false"/>
+			<property name="eclipselink.logging.parameters" value="true"/>
+			<property name="openjpa.LockTimeout" value="30000" />
+			<property name="openjpa.jdbc.TransactionIsolation" value="read-committed" />
+			<property name="openjpa.jdbc.UpdateManager" value="operation-order" />
+		</properties>
+	</persistence-unit>
+</persistence>
